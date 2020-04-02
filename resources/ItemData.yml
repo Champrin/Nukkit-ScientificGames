@@ -1,308 +1,315 @@
----
-437:
-  PH: ""
-  Water: 20
-  Excretion: 0.500000
-  Energy: 300
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-260:
-  PH: 0.060000
-  Water: 13
-  Excretion: 0.500000
-  Energy: 35
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-367:
-  PH: -0.100000
-  Water: -11
-  Excretion: 2.500000
-  Energy: 118
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-282:
-  PH: 0.060000
-  Water: 9
-  Excretion: 0.500000
-  Energy: 78
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-320:
-  PH: -0.080000
-  Water: -20
-  Excretion: 3.500000
-  Energy: 239
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-366:
-  PH: -0.080000
-  Water: -15
-  Excretion: 3.500000
-  Energy: 228
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-424:
-  PH: -0.080000
-  Water: -19
-  Excretion: 3.500000
-  Energy: 239
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-364:
-  PH: -0.080000
-  Water: -21
-  Excretion: 3.500000
-  Energy: 245
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-350:
-  PH: -0.080000
-  Water: -17
-  Excretion: 2.500000
-  Energy: 148
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-360:
-  PH: 0.060000
-  Water: 15
-  Excretion: 0.500000
-  Energy: 35
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-393:
-  PH: 0.060000
-  Water: -6
-  Excretion: 0.500000
-  Energy: 105
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-412:
-  PH: -0.080000
-  Water: -18
-  Excretion: 2.500000
-  Energy: 245
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-413:
-  PH: -0.080000
-  Water: 7
-  Excretion: 1
-  Energy: 128
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-432:
-  PH: 0.060000
-  Water: 12
-  Excretion: 0.500000
-  Energy: 30
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-433:
-  PH: 0.060000
-  Water: 12
-  Excretion: 0.500000
-  Energy: 30
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-297:
-  PH: -0.080000
-  Water: -7
-  Excretion: 1
-  Energy: 160
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-357:
-  PH: -0.050000
-  Water: -7
-  Excretion: 1
-  Energy: 183
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-400:
-  PH: -0.080000
-  Water: -7
-  Excretion: 1.500000
-  Energy: 133
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-397:
-  PH: 0.060000
-  Water: 13
-  Excretion: 0.500000
-  Energy: 35
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-392:
-  PH: 0.060000
-  Water: 13
-  Excretion: 0.500000
-  Energy: 32
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-322:
-  PH: ""
-  Water: ""
-  Excretion: ""
-  Energy: ""
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-396:
-  PH: ""
-  Water: ""
-  Excretion: ""
-  Energy: ""
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-382:
-  PH: ""
-  Water: ""
-  Excretion: ""
-  Energy: ""
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-319:
-  PH: -0.080000
-  Water: -18
-  Excretion: 3.500000
-  Energy: 213
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-365:
-  PH: -0.080000
-  Water: -17
-  Excretion: 3.500000
-  Energy: 188
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-423:
-  PH: -0.080000
-  Water: -20
-  Excretion: 3.500000
-  Energy: 199
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-363:
-  PH: -0.080000
-  Water: -23
-  Excretion: 3.500000
-  Energy: 230
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-411:
-  PH: -0.080000
-  Water: -18
-  Excretion: 3.500000
-  Energy: 223
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-349:
-  PH: -0.080000
-  Water: -13
-  Excretion: 2.500000
-  Energy: 120
-  Temperature: ~
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-373:
-  PH: -0.080000
-  Water: 15
-  Excretion: 2.000000
-  Energy: 98
-  Temperature: ~
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-335:
-  PH: 1.000000
-  Water: 25
-  Excretion: 2.000000
-  Energy: 10
-  Temperature: ~
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-326:
-  PH: 1.000000
-  Water: 15
-  Excretion: 0.500000
-  Energy: 3
-  Temperature: ~
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-339:
-  PH: ""
-  Water: ""
-  Excretion: ""
-  Energy: ""
-  Temperature: ""
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-352:
-  PH: ""
-  Water: ""
-  Excretion: ""
-  Energy: ""
-  Temperature: ~
-  Glu: ""
-  Fatigue: ""
-  Burden: ""
-...
+437-0:
+  PH: 0.0
+  Water: 20.0
+  Excretion: 0.50
+  Energy: 300.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+260-0:
+  PH: 0.06
+  Water: 13.0
+  Excretion: 0.50
+  Energy: 35.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+367-0:
+  PH: -0.10
+  Water: -11.0
+  Excretion: 2.50
+  Energy: 118.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+282-0:
+  PH: 0.06
+  Water: 9.0
+  Excretion: 0.50
+  Energy: 78.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+320-0:
+  PH: -0.08
+  Water: -20.0
+  Excretion: 3.50
+  Energy: 239.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+366-0:
+  PH: -0.08
+  Water: -15.0
+  Excretion: 3.50
+  Energy: 228.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+424-0:
+  PH: -0.08
+  Water: -19.0
+  Excretion: 3.50
+  Energy: 239.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+364-0:
+  PH: -0.08
+  Water: -21.0
+  Excretion: 3.50
+  Energy: 245.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+350-0:
+  PH: -0.08
+  Water: -17.0
+  Excretion: 2.50
+  Energy: 148.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+360-0:
+  PH: 0.06
+  Water: 15.0
+  Excretion: 0.50
+  Energy: 35.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+393-0:
+  PH: 0.06
+  Water: -6.0
+  Excretion: 0.50
+  Energy: 105.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+412-0:
+  PH: -0.08
+  Water: -18.0
+  Excretion: 2.50
+  Energy: 245.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+413-0:
+  PH: -0.08
+  Water: 7.0
+  Excretion: 1.0
+  Energy: 128.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+432-0:
+  PH: 0.06
+  Water: 12.0
+  Excretion: 0.50
+  Energy: 30.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+433-0:
+  PH: 0.06
+  Water: 12.0
+  Excretion: 0.50
+  Energy: 30.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+"29-07":
+  PH: -0.08
+  Water: -7.0
+  Excretion: 1.0
+  Energy: 160.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+357-0:
+  PH: -0.05
+  Water: -7.0
+  Excretion: 1.0
+  Energy: 183.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+400-0:
+  PH: -0.08
+  Water: -7.0
+  Excretion: 1.50
+  Energy: 133.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+397-0:
+  PH: 0.06
+  Water: 13.0
+  Excretion: 0.50
+  Energy: 35.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+392-0:
+  PH: 0.06
+  Water: 13.0
+  Excretion: 0.50
+  Energy: 32.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+322-0:
+  PH: 0.0
+  Water: 0.0
+  Excretion: 0.0
+  Energy: 0.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+396-0:
+  PH: 0.0
+  Water: 0.0
+  Excretion: 0.0
+  Energy: 0.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+382-0:
+  PH: 0.0
+  Water: 0.0
+  Excretion: 0.0
+  Energy: 0.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+319-0:
+  PH: -0.08
+  Water: -18.0
+  Excretion: 3.50
+  Energy: 213.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+365-0:
+  PH: -0.08
+  Water: -17.0
+  Excretion: 3.50
+  Energy: 188.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+423-0:
+  PH: -0.08
+  Water: -20.0
+  Excretion: 3.50
+  Energy: 199.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+363-0:
+  PH: -0.08
+  Water: -23.0
+  Excretion: 3.50
+  Energy: 230.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+411-0:
+  PH: -0.08
+  Water: -18.0
+  Excretion: 3.50
+  Energy: 223.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+349-0:
+  PH: -0.08
+  Water: -13.0
+  Excretion: 2.50
+  Energy: 120.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+373-0:
+  PH: -0.08
+  Water: 15.0
+  Excretion: 2.00
+  Energy: 98.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+335-0:
+  PH: 1.00
+  Water: 25.0
+  Excretion: 2.00
+  Energy: 10.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+325-10:
+  PH: 1.00
+  Water: 15.0
+  Excretion: 0.50
+  Energy: 3.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+325-8:
+  PH: 1.00
+  Water: 15.0
+  Excretion: 0.50
+  Energy: 3.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+339-0:
+  PH: 0.0
+  Water: 0.0
+  Excretion: 0.0
+  Energy: 0.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0
+352-0:
+  PH: 0.0
+  Water: 0.0
+  Excretion: 0.0
+  Energy: 0.0
+  Temperature: 0.0
+  Glu: 0.0
+  Fatigue: 0.0
+  Burden: 0.0

@@ -1,22 +1,22 @@
 name: ScientificGames
-main: xyz.champrin.ScientificGames
-version: "1.0.0"
+main: xyz.champrin.scientificgames.ScientificGames
+version: "1.5.0"
 api: ["1.0.8"]
-load: STARTUP
+load: POSTWORLD
 
-author: Champrin
-description: 科学游戏
-website: https://champrin.github.io
+
+author: Champrin,Spiderman
+description: "科学游戏"
 
 commands:
   ill:
-    permission: illness.command.ill
+    permission: Illness.command.ill
     usage: "/ill"
-    description: "§eScientificGames查看药物列表"
+    description: "§e 查看药物列表"
     aliases: []
   rlset:
     usage: "/rlset help"
-    permission: illness.command.cmd
+    permission: Illness.command.cmd
     description: "§b关于§eScientificGames§b的设置"
     aliases: []
 permissions:

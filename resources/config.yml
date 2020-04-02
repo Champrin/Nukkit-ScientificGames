@@ -1,19 +1,26 @@
-排泄方块ID: 46
+# 信息提示
 底部显示格式: tip
-Tip: "§f-=§l§6ScientificGames§r§f=-\n§a水含量: §f@水含量   §6排泄值:§c@排泄值   §b能量: §e@能量值   §2体温: §9@体温值   §3血糖: §5@血糖\n§epH值: §7@pH值   §4年龄: §5@年龄   §f心率: §5@心率   §a疲劳度: §5@疲劳度   §3负重: §5@负重   §e步数: §5@步数"
-water: 100
-waterBuffer: 150
-temperature: 37
-food: 0
-energy: 1069
-energyBuffer: 450
-glu: 5
-pH: 7.5
-age: 0
+Tip: "§f-=§l§6ScientificGames§r§f=-\n§a水含量: §f@水含量   §6排泄值:§c@排泄值   §b能量: §e@能量值   §3血糖: §5@血糖\n§epH值: §7@pH值   §a疲劳度: §5@疲劳度   §3负重: §5@负重"
+
+# 玩家体内各类值的初始值
+# 以下值为0的（0.0除外） 是还没有完成功能 所以改了没有任何用处
+water: 100.00
+waterBuffer: 100.00
+temperature: 0
+food: 0.0
+energy: 1000.00
+energyBuffer: 120.00
+glu: 5.00
+pH: 7.50
 fatigue: 0
-heart_rate: 0
-step_num: 0
+fatigueBuffer: 150.00
 burden: 0
+
+# 其他设置
+排泄方块ID: 46
+
+# 开启科学游戏的世界
+# worlds填写格式如下
 worlds:
   - world
   - ok
