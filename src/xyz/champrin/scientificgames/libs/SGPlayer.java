@@ -1,14 +1,18 @@
 package xyz.champrin.scientificgames.libs;
 
 import cn.nukkit.Player;
+import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.Listener;
 import cn.nukkit.potion.Effect;
 import xyz.champrin.scientificgames.ScientificGames;
+import xyz.champrin.scientificgames.mod.time.onYearEvent;
+import xyz.champrin.scientificgames.untils.Burden;
 import xyz.champrin.scientificgames.untils.SGPlayerSchedule;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class SGPlayer {
+public class SGPlayer implements Listener {
 
     public ScientificGames plugin = ScientificGames.getInstance();
 
@@ -40,27 +44,32 @@ public class SGPlayer {
     private double fatigueBufferLimit = plugin.fatigueBufferLimit;
 
     private double burden;
+    private double burdenMax;
 
     private double pStrength;//体力
 
     public ArrayList<String> illness = new ArrayList<>();
 
     public SGPlayer(String name) {
+        this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
         this.name = name;
 
-        this.water = plugin.PlayerInC.getDouble(name+".water");
-        this.waterBuffer = plugin.PlayerInC.getDouble(name+".waterBuffer");
-        this.energy = plugin.PlayerInC.getDouble(name+".energy");
-        this.energyBuffer = plugin.PlayerInC.getDouble(name+".energyBuffer");
-        this.food = plugin.PlayerInC.getDouble(name+".food");
-        this.temperature = plugin.PlayerInC.getDouble(name+".temperature");
-        this.glu = plugin.PlayerInC.getDouble(name+".glu");
-        this.pH = plugin.PlayerInC.getDouble(name+".pH");
-        this.age = plugin.PlayerInC.getDouble(name+".age");
-        this.fatigue = plugin.PlayerInC.getDouble(name+".fatigue");
-        this.burden = plugin.PlayerInC.getDouble(name+".burden");
+        this.water = plugin.PlayerInC.getDouble(name + ".water");
+        this.waterBuffer = plugin.PlayerInC.getDouble(name + ".waterBuffer");
+        this.energy = plugin.PlayerInC.getDouble(name + ".energy");
+        this.energyBuffer = plugin.PlayerInC.getDouble(name + ".energyBuffer");
+        this.food = plugin.PlayerInC.getDouble(name + ".food");
+        this.temperature = plugin.PlayerInC.getDouble(name + ".temperature");
+        this.glu = plugin.PlayerInC.getDouble(name + ".glu");
+        this.pH = plugin.PlayerInC.getDouble(name + ".pH");
+        this.age = plugin.PlayerInC.getDouble(name + ".age");
+        this.fatigue = plugin.PlayerInC.getDouble(name + ".fatigue");
+        this.burden = plugin.PlayerInC.getDouble(name + ".burden");
+        this.burdenMax = Math.round(plugin.BurdenMax * Math.pow(1.1D, age));
+
 
         this.player = plugin.getServer().getPlayer(name);
+
 
     }
 
@@ -127,6 +136,33 @@ public class SGPlayer {
         }
     }
 
+    public void toEnergyBuffer(int multiply) {
+        double a = energyBuffer;
+        this.energyBuffer = (a + 1) * multiply;
+        if (a >= energyBufferLimit) {
+            this.energy = (energy - 1) * 0.976;
+            this.energyBuffer = 0;
+        }
+    }
+
+    public void toFatigueBuffer(int multiply) {
+        double a = fatigueBuffer;
+        this.fatigueBuffer = (a + 2) * multiply;
+        if (a >= fatigueBufferLimit) {
+            this.fatigue = (fatigue + 1) * 0.926;
+            this.fatigueBuffer = 0;
+        }
+    }
+
+    public void toWaterBuffer(int multiply) {
+        double a = waterBuffer;
+        this.waterBuffer = (a + 1) * multiply;
+        if (a >= waterBufferLimit) {
+            this.water = (water - 1) * 0.988;
+            this.waterBuffer = 0;
+        }
+    }
+
     public boolean toActEnergy() {
         if (energy >= 5) {
             return true;
@@ -163,18 +199,6 @@ public class SGPlayer {
         this.water = this.water + water;
     }
 
-    public double getWaterBuffer() {
-        return waterBuffer;
-    }
-
-    public void setWaterBuffer(double waterBuffer) {
-        this.waterBuffer = waterBuffer;
-    }
-
-    public void addWaterBuffer(double waterBuffer) {
-        this.waterBuffer = this.waterBuffer + waterBuffer;
-    }
-
     public double getEnergy() {
         return energy;
     }
@@ -185,18 +209,6 @@ public class SGPlayer {
 
     public void addEnergy(double energy) {
         this.energy = this.energy + energy;
-    }
-
-    public double getEnergyBuffer() {
-        return energyBuffer;
-    }
-
-    public void setEnergyBuffer(double energyBuffer) {
-        this.energyBuffer = energyBuffer;
-    }
-
-    public void addEnergyBuffer(double energyBuffer) {
-        this.energyBuffer = this.energyBuffer + energyBuffer;
     }
 
     public double getFood() {
@@ -251,14 +263,6 @@ public class SGPlayer {
         return age;
     }
 
-    public void setAge(double age) {
-        this.age = age;
-    }
-
-    public void addAge(double age) {
-        this.age = this.age + age;
-    }
-
     public double getFatigue() {
         return fatigue;
     }
@@ -276,21 +280,56 @@ public class SGPlayer {
     }
 
     public void setBurden(double burden) {
-        this.burden = burden;
+        if (burden == -1.0D) {
+            this.burden = new Burden().getBurden(player.getInventory());
+        } else {
+            this.burden = burden;
+        }
     }
 
     public void addBurden(double burden) {
         this.burden = this.burden + burden;
     }
 
-    public void addEffect(int effectId,  int amplifier,int duration, boolean visible) {
+    public double getBurdenMax() {
+        return burdenMax;
+    }
+
+    public void addEffect(int effectId, int amplifier, int duration, boolean visible) {
         player.addEffect(Effect.getEffect(effectId).setDuration(duration).setAmplifier(amplifier).setVisible(visible));
+    }
+
+    public void recoverPlayer() {
+        this.fatigue = fatigue - 0.1;
+        this.pStrength = pStrength - 0.1;
     }
 
     public void killPlayer() {
         for (int i = 0; i <= player.getMaxHealth(); i++) {
             if (player.getHealth() <= 0) break;
-            this.player.setHealth(this.player.getHealth() - 2);
+            this.player.setHealth(this.player.getHealth() - 0.5F);
+        }
+    }
+
+    public float getSpeed() {
+        if (burden > 5.0D * burdenMax) {
+            return 0.1F / 10.0F;
+        } else if (burden > 4.5D * burdenMax) {
+            return 0.1F / 9.0F;
+        } else if (burden > 4.0D * burdenMax) {
+            return 0.1F / 8.0F;
+        } else if (burden > 3.5D * burdenMax) {
+            return 0.1F / 7.0F;
+        } else if (burden > 3.0D * burdenMax) {
+            return 0.1F / 6.0F;
+        } else if (burden > 2.5D * burdenMax) {
+            return 0.1F / 5.0F;
+        } else if (burden > 2.0D * burdenMax) {
+            return 0.1F / 4.0F;
+        } else if (burden > 1.5D * burdenMax) {
+            return 0.1F / 3.0F;
+        } else {
+            return burden > burdenMax ? 0.1F / 2.0F : 0.1F;
         }
     }
 
@@ -324,5 +363,11 @@ public class SGPlayer {
         Map.put("burden", burden);
         this.plugin.PlayerInC.set(name, Map);
         this.plugin.PlayerInC.save();
+    }
+
+    @EventHandler
+    public void onYear(onYearEvent event) {
+        this.age = age + 1;
+        this.burdenMax = Math.round(burdenMax * 1.1D);
     }
 }

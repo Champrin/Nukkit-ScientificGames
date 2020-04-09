@@ -1,0 +1,20 @@
+##BossBar
+time: "§e我的时间: §f%y%年%m%月%d%日%min%分%s%秒"
+season: "§e当前季节: §f%season%季"
+weather: "§e地区天气: §f%level%   %weather%"
+air-temperature: "§e地区气温: §f%T%度"
+
+##Season Naming
+spring: "春"
+summer: "夏"
+autumn: "秋"
+winter: "冬"
+
+##altitude stress stage 1-3
+altitude-stress-1: "§a你已经出现高原反应了！ \n §6不要再往上走了！！"
+altitude-stress-2: "§a你的高原反应很严重！ \n §6停止你的动作！！"
+altitude-stress-3: "§b高原反应\n §6高地极度缺氧让你大量扣血至死亡!"
+
+##Fatigue stage
+##the number means percent
+

@@ -1,6 +1,119 @@
 package xyz.champrin.scientificgames.mod.weather;
 
-public class Weather {
+import cn.nukkit.Player;
+import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.Listener;
+import cn.nukkit.event.entity.EntityLevelChangeEvent;
+import cn.nukkit.event.level.ChunkLoadEvent;
+import cn.nukkit.event.level.WeatherChangeEvent;
+import cn.nukkit.event.player.PlayerJoinEvent;
+import cn.nukkit.level.Level;
+import cn.nukkit.network.protocol.LevelEventPacket;
+import xyz.champrin.scientificgames.ScientificGames;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Random;
+
+public class Weather implements Listener {
+
+    public ScientificGames plugin = ScientificGames.getInstance();
+
+    public LinkedHashMap<Level, LinkedHashMap<String, Object>> weatherLevel = new LinkedHashMap<>();
+
+    private final ArrayList<String> weatherList = new ArrayList<>(Arrays.asList("小雨", "中雨", "大雨", "雷暴雨", "小雪", "中雪", "大雪"));
+
+    public Weather() {
+        this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
+    }
+
+    @EventHandler
+    public void onWeatherEnd(EndWeatherEvent event) {
+        spawnWeather(event.getLevel());
+    }
+
+    public void spawnWeather(Level level) {
+        plugin.getServer().getPluginManager().callEvent(new ChangeWeatherEvent(randomWeather(), level, this));
+    }
+
+    public String randomWeather() {
+        return weatherList.get(new Random().nextInt(weatherList.size()));
+    }
+
+    public String WeathertoString(Player player) {
+        return "§c" + player.getLevel().getName() + "   §f" + ((String) weatherLevel.get(player.getLevel()).get("weather"));
+    }
+
+    public boolean isSnow(Level level) {
+        if (weatherLevel.containsKey(level)) {
+            LinkedHashMap<String, Object> list = weatherLevel.get(level);
+            return ((String) list.get("weather")).equals("小雪") ||
+                    ((String) list.get("weather")).equals("中雪") ||
+                    ((String) list.get("weather")).equals("大雪");
+        }
+        return false;
+    }
+
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent e) {
+        Level level = e.getLevel();
+        String chunk = e.getChunk().getX() + "-" + e.getChunk().getZ();
+        weatherLevel.get(level).put("chunk", new LinkedHashMap<String, Object>() {{
+            put("pos", chunk);
+        }});
+        if (isSnow(level)) {
+            for (int x = 0; x < 16; x++) {
+                for (int z = 0; z < 16; z++) {
+                    ((LinkedHashMap<String, Object>) weatherLevel.get(level).get("chunk")).put(x + "-" + z, e.getChunk().getBiomeId(x, z));
+                    e.getChunk().setBiomeId(x, z, 12);
+                }
+            }
+            /*else if (mode == 1) {
+                for (int x = 0; x < 16; x++) {
+                    for (int z = 0; z < 16; z++) {
+                        e.getChunk().setBiomeId(x, z, 1);
+                    }
+                }
+            }*/
+        }
+    }
+
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (isSnow(e.getLevel())) {
+            e.setCancelled();
+        }
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (isSnow(e.getPlayer().getLevel())) {
+            setRaining(e.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onLevelChange(EntityLevelChangeEvent e) {
+        if (e.getEntity() instanceof Player) {
+            if (isSnow(e.getTarget())) {
+                setRaining((Player) e.getEntity());
+            }
+        }
+    }
+
+    private void setRaining(Player p) {
+        this.plugin.getServer().getScheduler().scheduleDelayedTask(this.plugin, () -> {
+            try {
+                LevelEventPacket pk = new LevelEventPacket();
+                pk.evid = LevelEventPacket.EVENT_START_RAIN;
+                pk.data = Integer.MAX_VALUE;
+                p.dataPacket(pk);
+            } catch (Exception ignore) {
+            }
+        }, 20);
+    }
 //晴：指天空无云或虽有零星的云，但云量占天空不到1/10称为晴，有时天空中出现很高很薄的云，但对透过阳光很少有影响的也称为晴。 [7-8]
 //多云：当空中的中、低云的云量占天空面积的4/10～7/10或高空云量占天空面积的6/10或以上时称为能够为多云。
 //阴天：凡中、低云的云量占天空面积的8/10及以上是称为阴。阴天是天色阴暗，阳光很少或不能透过云层。

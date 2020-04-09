@@ -28,9 +28,9 @@ public class ChairEntity extends Entity {
         pk.entityUniqueId = this.getId();
         pk.entityRuntimeId = this.id;
         pk.type = 64;
-        pk.x = (float) this.x+ 0.1F;
-        pk.y = (float) this.y+ 0.5F;
-        pk.z = (float) this.z+ 0.1F;
+        pk.x = (float) this.x + 0.1F;
+        pk.y = (float) this.y + 0.5F;
+        pk.z = (float) this.z + 0.1F;
         pk.speedX = 0.0F;
         pk.speedY = 0.0F;
         pk.speedZ = 0.0F;

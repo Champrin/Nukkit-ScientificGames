@@ -4,32 +4,34 @@ import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.Listener;
+import cn.nukkit.level.Level;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
-import cn.nukkit.utils.ConfigSection;
 import xyz.champrin.scientificgames.Listenters.Actions;
 import xyz.champrin.scientificgames.Listenters.FallIll;
 import xyz.champrin.scientificgames.Listenters.Foods;
+import xyz.champrin.scientificgames.libs.DataManager;
 import xyz.champrin.scientificgames.libs.SGPlayer;
-import xyz.champrin.scientificgames.untils.Burden;
+import xyz.champrin.scientificgames.mod.Bossbar.BossBar;
+import xyz.champrin.scientificgames.mod.season.Season;
+import xyz.champrin.scientificgames.mod.temperature.AirTemperature;
+import xyz.champrin.scientificgames.mod.temperature.ChangeTemperatureEvent;
+import xyz.champrin.scientificgames.mod.time.Time;
+import xyz.champrin.scientificgames.mod.weather.ChangeWeatherEvent;
+import xyz.champrin.scientificgames.mod.weather.Weather;
 import xyz.champrin.scientificgames.untils.MetricsLite;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class ScientificGames extends PluginBase implements Listener {
 
-    public Config config, WorldC, PlayerInC, ItemData;
+    public Config config, data, PlayerInC, ItemData;
     public List<String> OpenWorld = new ArrayList<>();
     public HashMap<String, SGPlayer> PlayerIn = new HashMap<>();
     public double WaterMax, TemperatureMax, FoodMax, EnergyMax, GluMax, pHMax, AgeMax, FatigueMax, BurdenMax;
     public int ExcretionBID;
     public double energyBufferLimit, waterBufferLimit, fatigueBufferLimit;
-
-    public String season;
 
     private static ScientificGames instance;
 
@@ -37,6 +39,17 @@ public class ScientificGames extends PluginBase implements Listener {
         return instance;
     }
 
+    public DataManager dataManager;
+
+    public Time timeTask;
+
+    public Weather weather;
+
+    public Season season;
+
+    public AirTemperature airTemperature;
+
+    public BossBar bossBar;
 
     @Override
     public void onLoad() {
@@ -52,7 +65,7 @@ public class ScientificGames extends PluginBase implements Listener {
             this.saveResource("config.yml", false);
         }
         this.config = new Config(this.getDataFolder() + "/config.yml", Config.YAML);
-
+        ConfigUpdate();
         this.WaterMax = this.config.getDouble("water");
         this.waterBufferLimit = this.config.getInt("waterBuffer");
         this.TemperatureMax = this.config.getDouble("temperature");
@@ -75,6 +88,21 @@ public class ScientificGames extends PluginBase implements Listener {
         this.PlayerInC = new Config(this.getDataFolder() + "/PlayerIn.yml", Config.YAML);
         this.PlayerInC.save();
 
+        if (!new File(this.getDataFolder() + "/time.yml").exists()) {
+            this.saveResource("time.yml", false);
+        }
+        if (!new File(this.getDataFolder() + "/data.yml").exists()) {
+            this.saveResource("data.yml", false);
+        }
+        this.data = new Config(this.getDataFolder() + "/data.yml", Config.YAML);
+        this.dataManager = new DataManager();
+        this.timeTask = new Time(data.getInt("year"), data.getInt("month"), data.getInt("day"), data.getInt("minute"), data.getInt("second"));
+        this.getServer().getScheduler().scheduleRepeatingTask(this.timeTask, 20);
+
+        if (!new File(this.getDataFolder() + "/data.yml").exists()) {
+            this.saveResource("data.yml", false);
+        }
+
 
         this.getServer().getPluginManager().registerEvents(new FallIll(), this);
         this.getServer().getPluginManager().registerEvents(new Foods(), this);
@@ -88,15 +116,41 @@ public class ScientificGames extends PluginBase implements Listener {
             this.config.set("底部显示格式", "tip");
             this.config.save();
         }
-        //reloadAllPlayerIn();
         this.OpenWorld.addAll(this.config.getStringList("worlds"));
+
+        this.bossBar = new BossBar();
+        this.weather = new Weather();
+        for (Map.Entry<Integer, Level> map : this.getServer().getLevels().entrySet()) {
+            weather.spawnWeather(map.getValue());
+        }
+        this.season = new Season();
+        this.airTemperature = new AirTemperature();
+        if ((int) this.data.get("airTemperature") == 0) {
+            this.getServer().getPluginManager().callEvent(new ChangeTemperatureEvent(new Random().nextInt(6), this.airTemperature));
+        }
+
         this.getLogger().info("§f“真实”游戏插件§d§r---§f§r加载完毕");
     }
 
+    public void ConfigUpdate() {
+
+    }
 
     @Override
     public void onDisable() {
-        savePlayerIn();
+        for (SGPlayer player : this.PlayerIn.values()) {
+            player.saveConfig();
+        }
+        data.set("year", timeTask.year);
+        data.set("month", timeTask.month);
+        data.set("day", timeTask.day);
+        data.set("minute", timeTask.minute);
+        data.set("second", timeTask.second);
+        data.set("season", dataManager.getSeason());
+        data.set("airTemperature", dataManager.getAirTemperature());
+        data.save();
+        config.set("worlds", OpenWorld);
+        config.save();
     }
 
     public void newPlayerIn(Player player) {
@@ -118,7 +172,7 @@ public class ScientificGames extends PluginBase implements Listener {
         this.PlayerInC.save();
         SGPlayer SGplayer = new SGPlayer(name);
         this.PlayerIn.put(name, SGplayer);
-        SGplayer.setBurden(new Burden().getBurden(player.getInventory()));
+        SGplayer.setBurden(-1.0D);
         SGplayer.RunSchedule();
     }
 
@@ -126,43 +180,8 @@ public class ScientificGames extends PluginBase implements Listener {
         String name = player.getName();
         SGPlayer SGplayer = new SGPlayer(name);
         this.PlayerIn.put(name, SGplayer);
-        SGplayer.setBurden(new Burden().getBurden(player.getInventory()));
+        SGplayer.setBurden(-1.0D);
         SGplayer.RunSchedule();
-    }
-
-    public void savePlayerIn() {
-        for (SGPlayer player : this.PlayerIn.values()) {
-            player.saveConfig();
-        }
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
-    }
-
-    @SuppressWarnings("unused")
-    public void PlayerStateCheckThirst(SGPlayer player) {
-        if (player.getWater() <= 15) {
-            player.getPlayer().sendMessage("你现在非常渴,不能再吃这些干燥的东西！！");
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public void PlayerStateCheckExcretion(SGPlayer player) {
-        if (player.getFood() >= 17) {
-            player.getPlayer().sendMessage("你现在膀胱要爆了,不能再吃东西！！你需要先排泄！！");
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public void PlayerStateCheckPH(SGPlayer player) {
-        if (player.getpH() <= 7.05) {
-            player.getPlayer().sendMessage("你的ph值已经快小于7了,不能再吃酸性食物！！");
-        }
     }
 
     public SGPlayer getSGPlayer(String name) {
@@ -177,42 +196,70 @@ public class ScientificGames extends PluginBase implements Listener {
             a = (double) item.get("PH");
             if (player.getpH() + a < pHMax) {
                 player.addpH(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setpH(0);
+            } else {
+                player.setpH(pHMax);
             }
         }
         if (item.get("Water") != null) {
             a = (double) item.get("Water");
             if (player.getWater() + a < WaterMax) {
                 player.addWater(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setWater(0);
+            } else {
+                player.setWater(WaterMax);
             }
         }
         if (item.get("Excretion") != null) {
             a = (double) item.get("Food");
             if (player.getFood() + a < FoodMax) {
                 player.addFood(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setFood(0);
+            } else {
+                player.setFood(FoodMax);
             }
         }
         if (item.get("Energy") != null) {
             a = (double) item.get("Energy");
             if (player.getEnergy() + a < EnergyMax) {
                 player.addEnergy(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setEnergy(0);
+            } else {
+                player.setEnergy(EnergyMax);
             }
         }
         if (item.get("Temperature") != null) {
             a = (double) item.get("Temperature");
             if (player.getTemperature() + a < TemperatureMax) {
                 player.addTemperature(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setTemperature(0);
+            } else {
+                player.setTemperature(TemperatureMax);
             }
         }
         if (item.get("Glu") != null) {
             a = (double) item.get("Glu");
             if (player.getGlu() + a < GluMax) {
                 player.addGlu(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setGlu(0);
+            } else {
+                player.setGlu(GluMax);
             }
         }
         if (item.get("Fatigue") != null) {
             a = (double) item.get("Fatigue");
             if (player.getFatigue() + a < FatigueMax) {
                 player.addFatigue(a);
+            } else if (player.getpH() + a <= 0) {
+                player.setFatigue(0);
+            } else {
+                player.setFatigue(FatigueMax);
             }
         }
 
@@ -223,7 +270,7 @@ public class ScientificGames extends PluginBase implements Listener {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String Title = "§l§d科学游戏§7>§r";
+        String Title = "§l§d科学游戏§f>§r";
         switch (command.getName()) {
             case "ill":
                 sender.sendMessage("§f================" + Title + "§f================");
@@ -245,19 +292,12 @@ public class ScientificGames extends PluginBase implements Listener {
                     case "setworld":
                         if (args.length > 1) {
                             String level = args[1];
-                            if (!this.getServer().isLevelGenerated(level)) {
-                                sender.sendMessage(Title + "  §a地图§6" + level + "§a不存在！");
-                                return false;
-                            }
                             if (this.OpenWorld.contains(level)) {
                                 sender.sendMessage(Title + "  §a地图§6" + level + "§a已经开启");
                                 return false;
                             }
                             this.OpenWorld.add(level);
-
-                            this.WorldC.setAll((ConfigSection) new LinkedHashMap<String, Object>().put("world", this.OpenWorld.toArray()));
-                            this.WorldC.save();
-                            sender.sendMessage(Title + "  §6真实生存开启在世界§alevel");
+                            sender.sendMessage(Title + "  §6真实生存开启在世界§a" + level);
                             return true;
                         } else {
                             sender.sendMessage(Title + "  §c未输入要添加的地图名");
@@ -272,9 +312,7 @@ public class ScientificGames extends PluginBase implements Listener {
                                 return false;
                             }
                             this.OpenWorld.remove(level);
-                            this.WorldC.setAll((ConfigSection) new LinkedHashMap<String, Object>().put("world", this.OpenWorld.toArray()));
-                            this.WorldC.save();
-                            sender.sendMessage(Title + "  §6真实生存关闭在世界§alevel");
+                            sender.sendMessage(Title + "  §6真实生存关闭在世界§a" + level);
                             return true;
                         } else {
                             sender.sendMessage(Title + "  §c未输入要删除的地图名");

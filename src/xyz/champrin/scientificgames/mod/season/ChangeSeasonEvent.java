@@ -2,11 +2,21 @@ package xyz.champrin.scientificgames.mod.season;
 
 import cn.nukkit.event.Cancellable;
 import cn.nukkit.event.Event;
+import cn.nukkit.event.HandlerList;
 import xyz.champrin.scientificgames.ScientificGames;
 
 public class ChangeSeasonEvent extends Event implements Cancellable {
 
-    String oldSeason = ScientificGames.getInstance().getSeason();
+    private static final HandlerList handlers = new HandlerList();
+
+    public static HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public ScientificGames plugin = ScientificGames.getInstance();
+
+    public String oldSeason = plugin.dataManager.getSeason();
+    public String newSeason;
 
     public ChangeSeasonEvent() {
         changeSeason();
@@ -14,18 +24,21 @@ public class ChangeSeasonEvent extends Event implements Cancellable {
 
     public void changeSeason() {
         switch (oldSeason) {
-            case "春季":
-                ScientificGames.getInstance().setSeason("夏季");
+            case "春":
+                newSeason = "夏";
                 break;
-            case "夏季":
-                ScientificGames.getInstance().setSeason("秋季");
+            case "夏":
+                newSeason = "秋";
                 break;
-            case "秋季":
-                ScientificGames.getInstance().setSeason("冬季");
+            case "秋":
+                newSeason = "冬";
                 break;
-            case "冬季":
-                ScientificGames.getInstance().setSeason("春季");
+            case "冬":
+                newSeason = "春";
                 break;
         }
+        plugin.dataManager.setSeason(newSeason);
+        plugin.dataManager.texts.set(1, "§e当前节: §f" + newSeason);
     }
+
 }

@@ -71,6 +71,23 @@ public class Foods implements Listener {
         }
     }
 
+    public void PlayerStateCheckThirst(SGPlayer player) {
+        if (player.getWater() <= 15) {
+            player.getPlayer().sendMessage("你现在非常渴,不能再吃这些干燥的东西！！");
+        }
+    }
+
+    public void PlayerStateCheckExcretion(SGPlayer player) {
+        if (player.getFood() >= 17) {
+            player.getPlayer().sendMessage("你现在膀胱要爆了,不能再吃东西！！你需要先排泄！！");
+        }
+    }
+
+    public void PlayerStateCheckPH(SGPlayer player) {
+        if (player.getpH() <= 7.05) {
+            player.getPlayer().sendMessage("你的ph值已经快小于7了,不能再吃酸性食物！！");
+        }
+    }
 
     @EventHandler
     public void onHeld(PlayerItemHeldEvent event) {
@@ -84,9 +101,9 @@ public class Foods implements Listener {
             int itemID = item.getId();
             int DataID = item.getDamage();
             if (itemID != Item.PAPER && itemID != Item.BONE) {
-                plugin.PlayerStateCheckExcretion(SGplayer);
-                plugin.PlayerStateCheckPH(SGplayer);
-                plugin.PlayerStateCheckThirst(SGplayer);
+                PlayerStateCheckExcretion(SGplayer);
+                PlayerStateCheckPH(SGplayer);
+                PlayerStateCheckThirst(SGplayer);
             }
             switch (itemID) {
                 case Item.POTION://水瓶

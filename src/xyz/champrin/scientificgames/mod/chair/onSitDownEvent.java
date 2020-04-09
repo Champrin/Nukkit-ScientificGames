@@ -13,8 +13,8 @@ public class onSitDownEvent extends Event implements Cancellable {
         relieveFatigue();
     }
 
-    public void relieveFatigue(){
-        player.addEnergy(- 5);
-        player.setFatigue(player.getFatigue()*0.2D);
+    public void relieveFatigue() {
+        player.addEnergy(-5);
+        player.setFatigue(player.getFatigue() * 0.2D);
     }
 }

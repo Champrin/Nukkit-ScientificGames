@@ -39,31 +39,37 @@ public class Illness {
 体力可以在你奔跑,游泳,潜行,跳跃中减少,当你静止不动时,体力会自动恢复
 
 */
-    public void getCold(SGPlayer sgplayer){
+    public void getCold(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("感冒");
     }
-    public void getFever(SGPlayer sgplayer){
+
+    public void getFever(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("发烧");
     }
-    public void getStomachache(SGPlayer sgplayer){
+
+    public void getStomachache(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("胃痛");
     }
-    public void getGXY(SGPlayer sgplayer){
+
+    public void getGXY(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("高血压");
     }
-    public void getGXZ(SGPlayer sgplayer){
+
+    public void getGXZ(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("高血脂");
     }
-    public void getXJGS(SGPlayer sgplayer){
+
+    public void getXJGS(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("心肌梗塞");
     }
-    public void getGXB(SGPlayer sgplayer){
+
+    public void getGXB(SGPlayer sgplayer) {
         Player player = sgplayer.getPlayer();
         sgplayer.illness.add("冠心病");
     }

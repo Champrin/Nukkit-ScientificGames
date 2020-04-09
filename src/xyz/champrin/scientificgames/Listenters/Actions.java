@@ -2,8 +2,7 @@ package xyz.champrin.scientificgames.Listenters;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
-import cn.nukkit.block.BlockWood;
-import cn.nukkit.block.BlockWood2;
+import cn.nukkit.block.BlockStone;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.item.EntityItem;
 import cn.nukkit.event.EventHandler;
@@ -34,7 +33,7 @@ public class Actions implements Listener {
 
     private ScientificGames plugin = ScientificGames.getInstance();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void OnChat(PlayerChatEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             SGPlayer SGplayer = this.plugin.getSGPlayer(event.getPlayer().getName());
@@ -42,7 +41,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void OnDeath(PlayerDeathEvent event) {
         if (this.plugin.OpenWorld.contains(event.getEntity().getLevel().getFolderName())) {
             this.plugin.getSGPlayer(event.getEntity().getName()).respawn();
@@ -56,12 +55,12 @@ public class Actions implements Listener {
 
         if (this.plugin.PlayerInC.get(name) == null) {
             this.plugin.newPlayerIn(player);
-        }else {
+        } else {
             plugin.reloadPlayerIn(player);
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onTp(EntityTeleportEvent event) {
         Entity player = event.getEntity();
         if (player instanceof Player) {
@@ -77,7 +76,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onHit(EntityDamageEvent event) {
         if (event instanceof EntityDamageByEntityEvent) {
             Entity player = event.getEntity();
@@ -95,7 +94,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             Player player = event.getPlayer();
@@ -112,7 +111,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlace(PlayerMoveEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
 
@@ -132,7 +131,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onToggleSneak(PlayerToggleSneakEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             Player player = event.getPlayer();
@@ -157,7 +156,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onHeld(PlayerItemHeldEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             Player player = event.getPlayer();
@@ -167,7 +166,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerEat(PlayerItemConsumeEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             SGPlayer SGplayer = this.plugin.getSGPlayer(event.getPlayer().getName());
@@ -175,7 +174,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onDrop(PlayerDropItemEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             SGPlayer SGplayer = this.plugin.getSGPlayer(event.getPlayer().getName());
@@ -183,7 +182,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void OnPickupItem(InventoryPickupItemEvent event) {
         EntityItem item = event.getItem();
         Inventory inventory = event.getInventory();
@@ -193,11 +192,22 @@ public class Actions implements Listener {
             if (this.plugin.OpenWorld.contains(player.getLevel().getFolderName())) {
                 SGPlayer SGplayer = this.plugin.getSGPlayer(name);
                 SGplayer.setBurden(new Burden().addBurden(item.getItem(), SGplayer.getBurden()));
+                player.setMovementSpeed(SGplayer.getSpeed());
             }
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void OnPMChange(PlayerGameModeChangeEvent event) {
+        if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
+            SGPlayer SGplayer = this.plugin.getSGPlayer(event.getPlayer().getName());
+            if (event.getNewGamemode() == 0) {
+                SGplayer.setBurden(-1.0D);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void OnBreak(BlockBreakEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             Player player = event.getPlayer();
@@ -215,12 +225,6 @@ public class Actions implements Listener {
                         player.sendMessage(">  §7手撸木头,会伤害手哦~~");
                     }
                     break;
-                case Block.TALL_GRASS:
-                    block.level.dropItem(block, new Item(Item.TALL_GRASS, 0, 1));
-                    break;
-                case Block.DEAD_BUSH:
-                    block.level.dropItem(block, new Item(Item.DEAD_BUSH, 0, 1));
-                    break;
                 case Block.CACTUS:
                     if (item == 0) {
                         player.setHealth(health - 1);
@@ -232,6 +236,8 @@ public class Actions implements Listener {
                     player.sendMessage(">  §a你在仙人掌里找到了§e" + num + "§a瓶水~~");
                     break;
                 case Block.MELON_BLOCK:
+                case Block.TALL_GRASS:
+                case Block.DEAD_BUSH:
                 case Block.GLASS:
                 case Block.GLASS_PANE:
                 case Block.STAINED_GLASS:
@@ -254,7 +260,7 @@ public class Actions implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (this.plugin.OpenWorld.contains(event.getPlayer().getLevel().getFolderName())) {
             Player player = event.getPlayer();
@@ -265,7 +271,7 @@ public class Actions implements Listener {
             SGplayer.onActions();
 
             if (inventory.getItemInHand().getId() == Item.STICK) {
-                if ((event.getBlock() instanceof BlockWood) || (event.getBlock() instanceof BlockWood2)) {
+                if (event.getBlock() instanceof BlockStone) {
                     int num = new Random().nextInt(101);
                     if (num <= 30) {
                         inventory.removeItem(new Item(Item.STICK, 0, 1));

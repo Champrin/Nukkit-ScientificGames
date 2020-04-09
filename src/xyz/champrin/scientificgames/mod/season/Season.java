@@ -1,11 +1,16 @@
 package xyz.champrin.scientificgames.mod.season;
 
-public class Season {
-    //春季、夏季、秋季、冬季
-    public String season;
+import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.Listener;
+import xyz.champrin.scientificgames.ScientificGames;
 
-    public Season(String season) {
-        this.season = season;
+public class Season implements Listener {
+    public String season;
+    public ScientificGames plugin = ScientificGames.getInstance();
+
+    public Season() {
+        this.season = ScientificGames.getInstance().dataManager.getSeason();
+        this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 
     public void Spring() {
@@ -18,5 +23,10 @@ public class Season {
     }
 
     public void Winter() {
+    }
+
+    @EventHandler
+    public void onSeasonChange(ChangeSeasonEvent event) {
+        this.season = event.newSeason;
     }
 }
